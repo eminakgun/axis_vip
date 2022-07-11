@@ -2,7 +2,7 @@
 This repo contains an UVM based AXI Stream VIP
 
 ## Diagram
-![Diagram](vip-architecture.png)
+![Diagram](doc/vip-architecture.png)
 
 ## Features
 - [ ] Assertion based property checking
