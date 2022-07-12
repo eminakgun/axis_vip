@@ -8,8 +8,8 @@ class axis_xfer_item #(uint `BUS_WIDTH_PARAMS) extends uvm_sequence_item;
   rand logic [DATA_W-1:0] tdata;
   rand logic [KEEP_STRB_W-1:0] tstrb;
   rand logic [KEEP_STRB_W-1:0] tkeep;
-  rand logic [ID_WIDTH-1:0] tid;
-  rand logic [DEST_WIDTH-1:0] tdest;
+  rand logic [ID_W-1:0] tid;
+  rand logic [DEST_W-1:0] tdest;
   rand logic [USER_W-1:0] tuser;
   rand logic tlast;
 

@@ -1,6 +1,6 @@
 
 
-class axis_agent_cfg extends uvm_objcet;
+class axis_agent_cfg extends uvm_object;
 
   bit is_active = 1'b1;   // active driver/sequencer or passive monitor
   bit has_cov   = 1'b1;   // enable coverage

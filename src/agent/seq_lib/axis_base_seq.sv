@@ -11,7 +11,7 @@ class axis_base_seq #(`DEFAULT_CLS_PARAM_ARGS) extends uvm_sequence #(ITEM_T);
     num_of_xfers inside {[10:50]};
   }
 
-  taks body();
+  task body();
     `uvm_fatal(`gtn, "Need to override this when you extend from this class!")
   endtask
 
