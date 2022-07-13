@@ -3,7 +3,7 @@
 class axis_base_seq #(`DEFAULT_CLS_PARAM_ARGS) extends uvm_sequence #(ITEM_T);
   `uvm_object_utils(axis_base_seq#(`DEFAULT_CLS_PARAMS))
 
-  axis_xfer_item xfers[];
+  axis_xfer_item#(`CLS_BUS_WIDTH_PARAMS) xfers[];
 
   rand uint num_of_xfers; 
 

@@ -18,6 +18,8 @@ class axis_xfer_item #(uint `BUS_WIDTH_PARAMS) extends uvm_sequence_item;
   rand int tvalid_delay; 
   rand int tready_delay;
 
+  `uvm_object_new
+
   constraint valid_ready_common_c {
     tvalid_delay inside {[1:10]};
     tready_delay inside {[1:10]};

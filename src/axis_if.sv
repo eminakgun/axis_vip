@@ -11,24 +11,24 @@ interface axis_if #(`DECL_BUS_WIDTH_PARAMS);
   logic [KEEP_STRB_W-1:0] TSTRB;
   logic [KEEP_STRB_W-1:0] TKEEP;
   logic TLAST;
-  logic [ID_WIDTH-1:0] TID;
-  logic [DEST_WIDTH-1:0] TDEST;
+  logic [ID_W-1:0] TID;
+  logic [DEST_W-1:0] TDEST;
   logic [USER_W-1:0] TUSER;
 
   clocking m_drv_cb @(posedge ACLK);
-    default input #1step output #1
+    default input #1step output #1;
     input ARESETn, TREADY;
     output TVALID, TLAST, TDATA, TSTRB, TKEEP, TID, TDEST, TUSER;
   endclocking
 
   clocking s_drv_cb @(posedge ACLK);
-    default input #1step output #1
+    default input #1step output #1;
     input ARESETn, TVALID, TLAST, TDATA, TSTRB, TKEEP, TID, TDEST, TUSER;
     output TREADY;
   endclocking
 
   clocking mon_cb @(posedge ACLK);
-    default input #1step
+    default input #1step;
     input ARESETn, TVALID, TREADY, TLAST,
     TDATA, TSTRB, TKEEP, TID, TDEST, TUSER;
   endclocking

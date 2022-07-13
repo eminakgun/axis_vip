@@ -5,9 +5,8 @@ class axis_driver #(`DEFAULT_CLS_PARAM_ARGS) extends uvm_driver#(ITEM_T);
   `uvm_component_param_utils(axis_driver#(`DEFAULT_CLS_PARAMS))
   `uvm_component_new
   
-  axi_agent_mode_e mode;
-  virtual master_bfm #(`CLS_BUS_WIDTH_PARAMS) m_bfm;
-  virtual slave_bfm #(`CLS_BUS_WIDTH_PARAMS) s_bfm;
+  `DECL_PARAM_CLS_TYPE(axis_agent_cfg)
+  axis_agent_cfg_t cfg_h;
   
   task run_phase(uvm_phase phase);
     // TODO
