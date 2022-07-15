@@ -1,7 +1,4 @@
 
-import axis_agent_pkg::*;
-import test_params_pkg::*;
-
 class example_test extends uvm_test;
   `uvm_component_utils(example_test)
   

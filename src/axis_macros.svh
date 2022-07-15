@@ -7,3 +7,5 @@
 `define CLS_BUS_WIDTH_PARAMS .DATA_W(bus_widths.DATA_W), .ID_W(bus_widths.ID_W), .DEST_W(bus_widths.DEST_W), .USER_W(bus_widths.USER_W)
 `define DECL_ITEM_TYPE typedef axis_agent_pkg::axis_xfer_item #(`BUS_WIDTH_PARAMS) axis_xfer_item_t;
 `define DECL_PARAM_CLS_TYPE(cls_name) typedef cls_name``#(`DEFAULT_CLS_PARAMS) cls_name``_t;
+`define DRIVE(cb, sig, value, en) \
+  if (en) pin_if.cb.sig <= value;

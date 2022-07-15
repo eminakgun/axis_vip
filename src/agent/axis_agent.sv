@@ -61,7 +61,7 @@ class axis_agent #(`DEFAULT_CLS_PARAM_ARGS) extends uvm_agent;
       driver_h.seq_item_port.connect(sequencer_h.seq_item_export);
     end
     if (cfg_h.has_cov && cfg_h.has_mon) begin
-      monitor_h.analysis_port.connect(cov_h.analysis_export);
+      monitor_h.xfer_analysis_port.connect(cov_h.analysis_export);
     end
   endfunction
 

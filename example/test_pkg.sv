@@ -1,5 +1,5 @@
 
-package test_params_pkg;
+package test_pkg;
 
   `ifndef DATA_W
     parameter int unsigned DATA_W = 16;
@@ -26,5 +26,13 @@ package test_params_pkg;
   `endif
 
   parameter axis_agent_pkg::bus_widths_t bus_widths = '{DATA_W: DATA_W, ID_W: ID_W, DEST_W: DEST_W, USER_W: USER_W};
+
+  import uvm_pkg::*;
+  import axis_agent_pkg::*;
+  `include "uvm_macros.svh"
+  `include "axis_macros.svh"
+  `include "dv_macros.svh"
+
+  `include "test.sv"
 
 endpackage

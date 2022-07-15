@@ -2,7 +2,7 @@
 `define AXIS_XFER_ITEM_SVH
 
 class axis_xfer_item #(uint `BUS_WIDTH_PARAMS) extends uvm_sequence_item;
-  `uvm_object_param_utils(axis_xfer_item #(`BUS_WIDTH_PARAMS))
+  // `uvm_object_param_utils(axis_xfer_item #(`BUS_WIDTH_PARAMS))
   `DECL_KEEP_STRB_W
 
   rand logic [DATA_W-1:0] tdata;
@@ -13,16 +13,27 @@ class axis_xfer_item #(uint `BUS_WIDTH_PARAMS) extends uvm_sequence_item;
   rand logic [USER_W-1:0] tuser;
   rand logic tlast;
 
+  // control
   rand axi_xfer_byte_type_e byte_type[KEEP_STRB_W-1:0];
+  bit xfer_succeed;
 
-  rand int tvalid_delay; 
-  rand int tready_delay;
+  // master bfm
+  rand uint tvalid_delay;
+  rand bit deassert_tvalid;
 
-  `uvm_object_new
+  // slave bfm
+  rand uint tready_delay;
+  rand bit deassert_tready;
+  rand bit wait_tvalid_asserted;
+  // TREADY can deassert until tvalid is asserted, see Handshake process in Spec 2.2.1 
+  rand bit toggle_tready;
+  rand uint toggle_delay[3];
 
   constraint valid_ready_common_c {
-    tvalid_delay inside {[1:10]};
+    tvalid_delay inside {[0:10]};
     tready_delay inside {[1:10]};
+    foreach(toggle_delay[i])
+    toggle_delay[i] inside {[0:10]};
   }
 
   constraint disable_illegal_byte_c {
@@ -31,7 +42,7 @@ class axis_xfer_item #(uint `BUS_WIDTH_PARAMS) extends uvm_sequence_item;
     }
   }
 
-  constraint keep_stobe_common_c {
+  constraint keep_strobe_common_c {
     foreach(byte_type[i]) {
       byte_type[i] == AXIS_DATA_BYTE     -> tkeep[i] == 1'b1 && tstrb[i] == 1'b1;
       byte_type[i] == AXIS_POS_BYTE      -> tkeep[i] == 1'b1 && tstrb[i] == 1'b0;
@@ -39,6 +50,18 @@ class axis_xfer_item #(uint `BUS_WIDTH_PARAMS) extends uvm_sequence_item;
       byte_type[i] == AXIS_RESERVED_BYTE -> tkeep[i] == 1'b0 && tstrb[i] == 1'b1;
     }  
   }
+
+  `uvm_object_new
+
+  `uvm_object_param_utils_begin(axis_xfer_item #(`BUS_WIDTH_PARAMS))
+    `uvm_field_int(tdata,  UVM_DEFAULT)
+    `uvm_field_int(tstrb,  UVM_DEFAULT)
+    `uvm_field_int(tkeep,  UVM_DEFAULT)
+    `uvm_field_int(tid,    UVM_DEFAULT)
+    `uvm_field_int(tdest,  UVM_DEFAULT)
+    `uvm_field_int(tuser,  UVM_DEFAULT)
+    `uvm_field_int(tlast,  UVM_DEFAULT)
+  `uvm_object_utils_end
 
 endclass
 

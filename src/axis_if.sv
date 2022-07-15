@@ -1,3 +1,4 @@
+`include "axis_macros.svh"
 
 interface axis_if #(`DECL_BUS_WIDTH_PARAMS);
 
@@ -15,19 +16,20 @@ interface axis_if #(`DECL_BUS_WIDTH_PARAMS);
   logic [DEST_W-1:0] TDEST;
   logic [USER_W-1:0] TUSER;
 
-  clocking m_drv_cb @(posedge ACLK);
+  clocking master_cb @(posedge ACLK);
     default input #1step output #1;
     input ARESETn, TREADY;
-    output TVALID, TLAST, TDATA, TSTRB, TKEEP, TID, TDEST, TUSER;
+    output TLAST, TDATA, TSTRB, TKEEP, TID, TDEST, TUSER;
+    input output TVALID;
   endclocking
 
-  clocking s_drv_cb @(posedge ACLK);
+  clocking slave_cb @(posedge ACLK);
     default input #1step output #1;
     input ARESETn, TVALID, TLAST, TDATA, TSTRB, TKEEP, TID, TDEST, TUSER;
-    output TREADY;
+    input output TREADY;
   endclocking
 
-  clocking mon_cb @(posedge ACLK);
+  clocking monitor_cb @(posedge ACLK);
     default input #1step;
     input ARESETn, TVALID, TREADY, TLAST,
     TDATA, TSTRB, TKEEP, TID, TDEST, TUSER;
@@ -36,6 +38,25 @@ interface axis_if #(`DECL_BUS_WIDTH_PARAMS);
   task automatic cycles(int unsigned n);
     repeat(n) @(posedge ACLK);
   endtask
+
+  axis_agent_pkg::pin_en_t pin_en;
+
+  function void set_pin_en(axis_agent_pkg::pin_en_t new_pin_en);
+    pin_en = new_pin_en;
+  endfunction
+
+  // task automatic drive(ref logic sig, input bit en, logic value);
+  //   if (en) sig = value;
+  // endtask
+
+  // Default value assignment
+  initial begin
+    forever begin
+      if (pin_en.tready_en == 1'b0) TREADY = 1'b1;
+      @(pin_en.tready_en || pin_en.tkeep_en || pin_en.tstrb_en || pin_en.tlast_en || 
+        pin_en.tid_en    || pin_en.tdest_en || pin_en.tuser_en || pin_en.tdata_en);
+    end
+  end
 
   `include "axis_assertions.svh"
 
