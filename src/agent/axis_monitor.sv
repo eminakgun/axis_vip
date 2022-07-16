@@ -23,7 +23,7 @@ class axis_monitor #(`DEFAULT_CLS_PARAM_ARGS) extends uvm_monitor;
     forever begin
       item = ITEM_T::type_id::create("axis_xfer_item");
       cfg_h.monitor_bfm.collect_xfer(item);
-      `uvm_info(`gfn, $sformatf("Captured xfer: %s", item.sprint()), UVM_DEBUG);
+      `uvm_info(`gfn, $sformatf("Captured xfer:\n %s", item.sprint()), UVM_DEBUG);
       xfer_analysis_port.write(item);
     end
   endtask

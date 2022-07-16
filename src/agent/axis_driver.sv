@@ -9,12 +9,15 @@ class axis_driver #(`DEFAULT_CLS_PARAM_ARGS) extends uvm_driver#(ITEM_T);
   axis_agent_cfg_t cfg_h;
   
   task run_phase(uvm_phase phase);
-    seq_item_port.get_next_item(req);
-    if (cfg_h.mode == AXIS_MASTER)
-      cfg_h.master_bfm.send_xfer(req);
-    else
-      cfg_h.slave_bfm.recv_xfer(req);
-    seq_item_port.item_done(req);
+    forever begin
+      seq_item_port.get_next_item(req);
+      `uvm_info(`gfn, $sformatf("Next xfer item:\n %s", req.sprint()), UVM_DEBUG);
+      if (cfg_h.mode == AXIS_MASTER)
+        cfg_h.master_bfm.send_xfer(req);
+      else
+        cfg_h.slave_bfm.recv_xfer(req);
+      seq_item_port.item_done();
+    end
   endtask
 
 endclass 

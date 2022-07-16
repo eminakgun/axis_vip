@@ -13,7 +13,6 @@ class example_test extends uvm_test;
   `uvm_component_new
 
   function void build_phase(uvm_phase phase);
-
     // configuration
     agent_cfg_m_h = new("agent_cfg_m_h");
     agent_cfg_m_h.mode = AXIS_MASTER;
@@ -30,6 +29,36 @@ class example_test extends uvm_test;
     axis_agent_s_h = axis_agent#(bus_widths, axis_xfer_item_t)::type_id::create("axis_agent_s_h", this);
 
   endfunction
+
+  task run_phase(uvm_phase phase);
+    // `DECL_PARAM_CLS_TYPE(axis_full_rand_xfer_seq)
+    typedef axis_full_rand_xfer_seq#(bus_widths, axis_xfer_item_t) axis_full_rand_xfer_seq_t;
+    axis_full_rand_xfer_seq_t m_seq;
+    axis_full_rand_xfer_seq_t s_seq;
+
+    phase.raise_objection(this, $sformatf("%s objection raised", `gn));
+
+    m_seq = axis_full_rand_xfer_seq_t::type_id::create("m_axi_full_rand_xfer_seq", this);
+    s_seq = axis_full_rand_xfer_seq_t::type_id::create("s_axi_full_rand_xfer_seq", this);
+
+    void'(std::randomize(m_seq.num_of_xfers) with { m_seq.num_of_xfers inside {[10:50]}; });
+    s_seq.num_of_xfers = m_seq.num_of_xfers;
+    `uvm_info(`gfn, $sformatf("Number of xfers to execute: %0d", m_seq.num_of_xfers), UVM_INFO);
+    
+    agent_cfg_m_h.master_bfm.pin_if.cycles(10); // let signals settle
+
+    fork
+      begin
+        m_seq.start(axis_agent_m_h.sequencer_h);
+        `uvm_info(`gfn, "End master sequence", UVM_INFO);
+      end
+      begin
+        s_seq.start(axis_agent_s_h.sequencer_h);
+        `uvm_info(`gfn, "End slave sequence", UVM_INFO);
+      end
+    join
+    phase.drop_objection(this, $sformatf("%s objection dropped", `gn));
+  endtask
   
 
 endclass
