@@ -1,6 +1,6 @@
 `include "axis_macros.svh"
 
-interface axis_if #(`DECL_BUS_WIDTH_PARAMS);
+interface axis_if #(`DECL_BUS_WIDTH_PARAMS)();
 
   `DECL_KEEP_STRB_W
 
@@ -17,14 +17,14 @@ interface axis_if #(`DECL_BUS_WIDTH_PARAMS);
   logic [USER_W-1:0] TUSER;
 
   clocking master_cb @(posedge ACLK);
-    default input #1step output #1;
+    default input #1step output #1ns;
     input ARESETn, TREADY;
     output TLAST, TDATA, TSTRB, TKEEP, TID, TDEST, TUSER;
     input output TVALID;
   endclocking
 
   clocking slave_cb @(posedge ACLK);
-    default input #1step output #1;
+    default input #1step output #1ns;
     input ARESETn, TVALID, TLAST, TDATA, TSTRB, TKEEP, TID, TDEST, TUSER;
     input output TREADY;
   endclocking
@@ -57,6 +57,12 @@ interface axis_if #(`DECL_BUS_WIDTH_PARAMS);
         pin_en.tid_en    || pin_en.tdest_en || pin_en.tuser_en || pin_en.tdata_en);
     end
   end
+
+  task initialize();
+    ARESETn <= 1'b1;
+    TVALID <= 1'b0;
+    TREADY <= 1'b0;
+  endtask
 
   `include "axis_assertions.svh"
 
