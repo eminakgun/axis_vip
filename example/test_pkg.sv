@@ -33,6 +33,8 @@ package test_pkg;
   `include "axis_macros.svh"
   `include "dv_macros.svh"
 
+  `include "axis_scoreboard.sv"
+  `include "axis_metric_analyzer.sv"
   `include "test.sv"
 
 endpackage

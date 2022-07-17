@@ -10,6 +10,9 @@ class example_test extends uvm_test;
   axis_agent_cfg#(bus_widths, axis_xfer_item_t) agent_cfg_m_h;
   axis_agent_cfg#(bus_widths, axis_xfer_item_t) agent_cfg_s_h;
 
+  axis_scoreboard#(bus_widths, axis_xfer_item_t) axis_scoreboard_h;
+  axis_metric_analyzer#(bus_widths, axis_xfer_item_t) axis_metric_analyzer_h;
+
   `uvm_component_new
 
   function void build_phase(uvm_phase phase);
@@ -28,6 +31,14 @@ class example_test extends uvm_test;
     axis_agent_m_h = axis_agent#(bus_widths, axis_xfer_item_t)::type_id::create("axis_agent_m_h", this);
     axis_agent_s_h = axis_agent#(bus_widths, axis_xfer_item_t)::type_id::create("axis_agent_s_h", this);
 
+    axis_scoreboard_h = axis_scoreboard#(bus_widths, axis_xfer_item_t)::type_id::create("axis_scoreboard_h", this);
+    axis_metric_analyzer_h = axis_metric_analyzer#(bus_widths, axis_xfer_item_t)::type_id::create("axis_metric_analyzer_h", this);
+  endfunction
+
+  function void connect_phase(uvm_phase phase);
+    axis_agent_m_h.monitor_h.xfer_analysis_port.connect(axis_scoreboard_h.actual_fifo.analysis_export);
+    axis_agent_m_h.driver_h.driver2sb_ap.connect(axis_scoreboard_h.expected_fifo.analysis_export);
+    axis_agent_m_h.monitor_h.xfer_analysis_port.connect(axis_metric_analyzer_h.analysis_export);
   endfunction
 
   task run_phase(uvm_phase phase);
