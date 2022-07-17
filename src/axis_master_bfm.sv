@@ -6,14 +6,15 @@ interface axis_master_bfm #(`DECL_BUS_WIDTH_PARAMS)();
   virtual axis_if#(`BUS_WIDTH_PARAMS) pin_if;
   import uvm_pkg::*;
 
+  `define BFM_NAME "axis_master_bfm"
   task automatic send_xfer(input axis_xfer_item_t axi_item);
     if (pin_if.master_cb.TVALID == 1'b1) begin
-      `uvm_info("%m", "Xfer attempt failed since tvalid is already asserted");
+      `uvm_info(`BFM_NAME, "Xfer attempt failed since tvalid is already asserted", UVM_DEBUG);
       axi_item.xfer_result = 1'b0;
       wait_tready();
     end
     else begin
-      `uvm_info("%m", "Driving AXIS lines", UVM_DEBUG);
+      `uvm_info(`BFM_NAME, "Driving AXIS lines", UVM_DEBUG);
       fork
         assert_tvalid(axi_item.tvalid_delay);
         drive_source_data(axi_item);
@@ -21,7 +22,7 @@ interface axis_master_bfm #(`DECL_BUS_WIDTH_PARAMS)();
       @pin_if.master_cb;
     
       wait_tready();
-      `uvm_info("%m", "TREADY captured", UVM_DEBUG);
+      `uvm_info(`BFM_NAME, "TREADY captured", UVM_DEBUG);
       axi_item.xfer_result = 1'b1;
     end
 

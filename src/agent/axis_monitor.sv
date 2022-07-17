@@ -25,6 +25,7 @@ class axis_monitor #(`DEFAULT_CLS_PARAM_ARGS) extends uvm_monitor;
       cfg_h.monitor_bfm.collect_xfer(item);
       `uvm_info(`gfn, $sformatf("Captured xfer:\n %s", item.sprint()), UVM_DEBUG);
       xfer_analysis_port.write(item);
+      cfg_h.monitor_bfm.cycles(1);
     end
   endtask
 

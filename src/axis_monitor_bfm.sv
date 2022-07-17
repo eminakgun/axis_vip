@@ -13,7 +13,10 @@ interface axis_monitor_bfm #(`DECL_BUS_WIDTH_PARAMS)();
     let tready_asserted = pin_if.monitor_cb.TREADY == 1'b1 || pin_if.pin_en.tready_en == 1'b0;
     wait(tready_asserted == 1'b1 && pin_if.monitor_cb.TVALID == 1'b1);
     register_lines(axis_xfer_item);
-    @(pin_if.monitor_cb);
+  endtask
+
+  task automatic cycles(int unsigned n=1);
+    repeat(n) @(pin_if.monitor_cb);
   endtask
 
   task register_lines(input axis_xfer_item_t axis_xfer_item);

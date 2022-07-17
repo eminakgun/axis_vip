@@ -1,8 +1,11 @@
 `include "axis_macros.svh"
+`include "uvm_macros.svh"
+
 interface axis_slave_bfm #(`DECL_BUS_WIDTH_PARAMS)();
   `DECL_ITEM_TYPE
   virtual axis_if#(`BUS_WIDTH_PARAMS) pin_if;
   import uvm_pkg::*;
+  `define BFM_NAME "axis_slave_bfm"
 
   task automatic recv_xfer(input axis_xfer_item_t axis_xfer_item);
     if (pin_if.pin_en.tready_en) begin
@@ -10,9 +13,9 @@ interface axis_slave_bfm #(`DECL_BUS_WIDTH_PARAMS)();
         toggle_tready(axis_xfer_item.toggle_delay);
       if (pin_if.slave_cb.TREADY != 1'b1) // TREADY might be asserted after toggling
         assert_tready(axis_xfer_item);
-        `uvm_info("%m", "asserted TREADY", UVM_DEBUG);
+        `uvm_info(`BFM_NAME, "asserted TREADY", UVM_DEBUG);
     end
-    `uvm_info("%m", "waiting TVALID to be asserted", UVM_DEBUG);
+    `uvm_info(`BFM_NAME, "waiting TVALID to be asserted", UVM_DEBUG);
     wait(pin_if.slave_cb.TVALID == 1'b1);
 
     register_source_data(axis_xfer_item);
