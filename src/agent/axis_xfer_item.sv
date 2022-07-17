@@ -72,14 +72,14 @@ class axis_xfer_item #(uint `BUS_WIDTH_PARAMS) extends uvm_sequence_item;
     `uvm_field_int(tdest,                 UVM_DEFAULT)
     `uvm_field_int(tuser,                 UVM_DEFAULT)
     `uvm_field_int(tlast,                 UVM_DEFAULT)
-    `uvm_field_int(xfer_result,           UVM_DEFAULT)
-    `uvm_field_int(source_data_delay,     UVM_DEFAULT)
-    `uvm_field_int(tvalid_delay,          UVM_DEFAULT)
-    `uvm_field_int(deassert_tvalid,       UVM_DEFAULT)
-    `uvm_field_int(tready_delay,          UVM_DEFAULT)
-    `uvm_field_int(deassert_tready,       UVM_DEFAULT)
-    `uvm_field_int(wait_tvalid_asserted,  UVM_DEFAULT)
-    `uvm_field_int(toggle_tready,         UVM_DEFAULT)
+    `uvm_field_int(xfer_result,           UVM_DEFAULT | UVM_NOCOMPARE)
+    `uvm_field_int(source_data_delay,     UVM_DEFAULT | UVM_NOCOMPARE)
+    `uvm_field_int(tvalid_delay,          UVM_DEFAULT | UVM_NOCOMPARE)
+    `uvm_field_int(deassert_tvalid,       UVM_DEFAULT | UVM_NOCOMPARE)
+    `uvm_field_int(tready_delay,          UVM_DEFAULT | UVM_NOCOMPARE)
+    `uvm_field_int(deassert_tready,       UVM_DEFAULT | UVM_NOCOMPARE)
+    `uvm_field_int(wait_tvalid_asserted,  UVM_DEFAULT | UVM_NOCOMPARE)
+    `uvm_field_int(toggle_tready,         UVM_DEFAULT | UVM_NOCOMPARE)
   `uvm_object_utils_end
 
 endclass
