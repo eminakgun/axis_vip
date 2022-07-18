@@ -6,24 +6,35 @@ This repo contains an UVM based AXI Stream VIP
 
 ## Features
 - [ ] Assertion based property checking
-- [ ] AXI4-Stream Pin Interface
-- [ ] Standalone Bus Functional Models (independent of UVM based components)
-  - [ ] Master BFM 
-  - [ ] Slave BFM
-  - [ ] Monitor BFM
-- [ ] UVM Agent
-  - [ ] Configuration
-  - [ ] Driver
-  - [ ] Monitor
-  - [ ] Sequencer
+- [x] AXI4-Stream Pin Interface
+- [x] Standalone Bus Functional Models (independent of UVM based components)
+  - [x] Master BFM 
+  - [x] Slave BFM
+  - [x] Monitor BFM
+- [x] UVM Agent
+  - [x] Configuration
+  - [x] Driver
+  - [x] Monitor
+  - [x] Sequencer
   - [ ] Coverage collection
-- [ ] UVM Sequence Item
+- [x] UVM Sequence Item
 - [ ] UVM Sequences
+  - [x] Default full random sequence 
   - [ ] Byte stream sequence
   - [ ] Continous aligned stream sequence
   - [ ] Continous unaligned stream sequence
   - [ ] Sparse stream sequence
 - [ ] UVM Environment
+  - [ ] Environment Configuration
   - [ ] Virtual sequencer
-  - [ ] Scoreboard
+  - [x] Scoreboard
   - [ ] Coverage collection 
+
+## TODO
+  - [x] Transfer based simulation
+  - [ ] Packet based simulation
+  - [x] Add Scoreboard
+  - [x] Add agent covergroups
+  - [x] Add match/mismatch count in scoreboard
+  - [ ] Add SVAs
+  - [ ] Add default value signaling
