@@ -67,4 +67,5 @@ interface axis_slave_bfm #(`DECL_BUS_WIDTH_PARAMS)();
     join
   endtask
 
+  `undef BFM_NAME
 endinterface

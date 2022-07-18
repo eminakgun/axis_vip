@@ -19,6 +19,7 @@ module tb;
       clk = 0;
       #5ns;
       clk = 1;
+      #5ns;
     end
   end
   assign axis_if.ACLK = clk;

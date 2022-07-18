@@ -21,7 +21,7 @@ class axis_agent #(`DEFAULT_CLS_PARAM_ARGS) extends uvm_agent;
   function void build_phase(uvm_phase phase);
     // get agent_cfg object from uvm_config_db
     if (!uvm_config_db#(axis_agent_cfg_t)::get(this, "", "axis_agent_cfg", cfg_h)) begin
-      `uvm_fatal(`gfn, $sformatf("failed to get from uvm_config_db"))
+      `uvm_fatal(`gfn, $sformatf("failed to get axis_agent_cfg from uvm_config_db"))
     end
     `uvm_info(`gfn, $sformatf("\n%0s", cfg_h.sprint()), UVM_HIGH)
 

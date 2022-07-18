@@ -56,5 +56,5 @@ interface axis_master_bfm #(`DECL_BUS_WIDTH_PARAMS)();
     `DRIVE(master_cb, TUSER, axi_item.tuser, pin_if.pin_en.tuser_en);
   endtask
 
-
+  `undef BFM_NAME
 endinterface
