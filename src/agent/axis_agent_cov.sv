@@ -10,6 +10,7 @@ class axis_agent_cov #(`DEFAULT_CLS_PARAM_ARGS) extends uvm_subscriber#(ITEM_T);
 
 
   covergroup axis_xfer_item_cg(string name, pin_en_t pin_en) with function sample(ITEM_T axis_xfer_item);
+    option.per_instance = 1;
     option.name = name;
 
     cp_tdata: coverpoint axis_xfer_item.tdata {
