@@ -45,14 +45,36 @@ interface axis_if #(`DECL_BUS_WIDTH_PARAMS)();
     pin_en = new_pin_en;
   endfunction
 
-  // task automatic drive(ref logic sig, input bit en, logic value);
-  //   if (en) sig = value;
-  // endtask
-
-  // Default value assignment
+  /* Default value assignment */
+  bit tlast_default = 1; // the default value for tlast is indeterminate
   initial begin
     forever begin
-      if (pin_en.tready_en == 1'b0) TREADY = 1'b1;
+
+      if (!pin_en.tready_en) TREADY = 1'b1;
+
+      if (!pin_en.tkeep_en) TKEEP = '1; // all ones
+
+      if (!pin_en.tstrb_en) 
+        if (pin_en.tkeep_en)
+          assign TSTRB = TKEEP;
+        else
+          TSTRB = '1; // all ones
+
+      if (!pin_en.tlast_en)
+          TLAST = tlast_default;
+
+      if (!pin_en.tid_en)
+        TID = '0; // all zeros
+
+      if (!pin_en.tdest_en)
+        TDEST = '0; // all zeros
+
+      if (!pin_en.tuser_en)
+        TUSER = '0; // all zeros
+        
+      if (!pin_en.tdata_en)
+        assert(!pin_en.tstrb_en);
+
       @(pin_en.tready_en || pin_en.tkeep_en || pin_en.tstrb_en || pin_en.tlast_en || 
         pin_en.tid_en    || pin_en.tdest_en || pin_en.tuser_en || pin_en.tdata_en);
     end
